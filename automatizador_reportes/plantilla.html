@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte Mensual de Servicios</title>
+    <style>
+        @page {
+            size: letter;
+            margin: 20mm;
+            @bottom-right {
+                content: "Página " counter(page) " de " counter(pages);
+                font-size: 9pt;
+                color: #555;
+            }
+        }
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #333;
+            line-height: 1.5;
+        }
+        .header {
+            border-bottom: 2px solid #1a365d;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        .logo-text {
+            font-size: 24pt;
+            font-weight: bold;
+            color: #1a365d;
+        }
+        .report-title {
+            text-align: right;
+            float: right;
+            font-size: 14pt;
+            color: #4a5568;
+            margin-top: 10px;
+        }
+        .clearfix { clear: both; }
+        .details-box {
+            background-color: #f7fafc;
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        th {
+            background-color: #2b6cb0;
+            color: white;
+            text-align: left;
+            padding: 10px;
+            font-size: 11pt;
+        }
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 11pt;
+        }
+        .monto { text-align: right; font-weight: bold; }
+        .status-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 10pt;
+            font-weight: bold;
+        }
+        .status-pagado { background-color: #c6f6d5; color: #22543d; }
+        .status-pendiente { background-color: #feebc8; color: #744210; }
+        .footer-notice {
+            margin-top: 50px;
+            font-size: 9pt;
+            color: #718096;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="report-title">Periodo: {{ mes_periodo }}</div>
+        <div class="logo-text">Soluciones PYME</div>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="details-box">
+        <strong>Código de Cliente:</strong> {{ cliente_codigo }}<br>
+        <strong>Empresa:</strong> {{ nombre_empresa }}<br>
+        <strong>Fecha de Emisión:</strong> 14 de Junio de 2026
+    </div>
+
+    <h3>Resumen de Actividades y Consumos</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Descripción del Concepto</th>
+                <th style="text-align: center;">Cantidad / Volumen</th>
+                <th style="text-align: right;">Total Ejercido</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Servicios Profesionales Prestados en el Periodo</td>
+                <td style="text-align: center;">{{ servicios_prestados }}</td>
+                <td class="monto">${{ "{:,.2f}".format(monto_ejercido) }} MXN</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>
+        <strong>Estatus de Cuenta:</strong> 
+        <span class="status-badge {% if estatus_pago == 'Pagado' %}status-pagado{% else %}status-pendiente{% endif %}">
+            {{ estatus_pago | upper }}
+        </span>
+    </p>
+
+    <div class="footer-notice">
+        Este es un reporte automatizado confidencial generado para uso exclusivo de {{ nombre_empresa }}.<br>
+        Si detecta alguna discrepancia, por favor contacte a soporte de inmediato de forma interna.
+    </div>
+
+</body>
+</html>

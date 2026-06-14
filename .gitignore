@@ -1,0 +1,27 @@
+# === Configuración Local y Secretos (CRÍTICO) ===
+.env
+*.env
+
+# === Bases de Datos Locales y Efímeras ===
+*.db
+*.sqlite
+*.log
+sistema_reportes.log
+analitica_ventas.log
+
+# === Archivos Generados por los Scripts o Pruebas ===
+reportes_generados/
+data_ventas.json
+
+# === Entornos Virtuales de Python y Caché ===
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# === Archivos de Compilación de Java e IDEs ===
+target/
+*.class
+.idea/
+.vscode/
+.DS_Store
