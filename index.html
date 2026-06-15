@@ -152,10 +152,17 @@
                     <p id="modal-cobertura" class="text-emerald-400"></p>
                 </div>
             </div>
-            <div class="p-6 bg-slate-50 border-t border-slate-100 flex justify-between items-center">
-                <span id="modal-roi" class="text-xs font-bold uppercase bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full"></span>
-                <a href="#contacto" onclick="cerrarModal()" class="bg-brand-navy hover:bg-brand-dark text-white text-sm font-bold px-5 py-2.5 rounded transition">Me interesa este Sistema</a>
+            <div class="p-6 bg-slate-50 border-t border-slate-100 flex flex-col sm:flex-row gap-3 justify-between items-center">
+            <span id="modal-roi" class="text-xs font-bold uppercase bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full"></span>
+            <div class="flex gap-2 w-full sm:w-auto">
+                <a href="https://github.com/IngArturoPC/Soluciones-PYME-Portafolio" target="_blank" class="border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold px-4 py-2.5 rounded transition flex items-center gap-1.5 justify-center">
+                    <i data-lucide="github" class="w-4 h-4"></i> Inspeccionar Código
+                </a>
+                <a href="#contacto" onclick="cerrarModal()" class="bg-brand-navy hover:bg-brand-dark text-white text-xs font-bold px-4 py-2.5 rounded transition text-center flex-1 sm:flex-initial">
+                    Me interesa este Sistema
+                </a>
             </div>
+</div>
         </div>
     </div>
 
@@ -276,22 +283,73 @@
         }
 
         // 3. LOGICA DE CONTROL DE LA VENTANA MODAL
-        function abrirModal(id) {
-            const p = proyectos.find(proj => proj.id === id);
-            if(!p) return;
+       // Asegúrate de que esta función reemplace a la anterior en tu index.html
+function abrirModal(id) {
+    const p = proyectos.find(proj => proj.id === id);
+    if(!p) return;
 
-            document.getElementById("modal-tech").innerText = p.tech;
-            document.getElementById("modal-titulo").innerText = p.titulo;
-            document.getElementById("modal-problema").innerText = p.problema;
-            document.getElementById("modal-solucion").innerText = p.solucion;
-            document.getElementById("modal-tdd").innerText = p.tdd;
-            document.getElementById("modal-cobertura").innerText = `>>> ${p.cobertura}`;
-            document.getElementById("modal-roi").innerText = p.roi;
+    document.getElementById("modal-tech").innerText = p.tech;
+    document.getElementById("modal-titulo").innerText = p.titulo;
+    document.getElementById("modal-problema").innerText = p.problema;
+    document.getElementById("modal-solucion").innerText = p.solucion;
+    document.getElementById("modal-tdd").innerText = p.tdd;
+    document.getElementById("modal-roi").innerText = p.roi;
 
-            const modal = document.getElementById("modal-proyecto");
-            modal.classList.remove("hidden");
-            document.body.style.overflow = "hidden"; // Bloquear scroll de fondo
-            lucide.createIcons();
+    // INYECCIÓN DE LA DEMO INTERACTIVA:
+    // Creamos un contenedor dinámico para simular la ejecución del backend
+    const contenedorConsola = document.getElementById("modal-cobertura");
+    contenedorConsola.innerHTML = `
+        <div class="space-y-2">
+            <span class="text-slate-500 block">// Estado: Listo para simulación en entorno seguro corporativo</span>
+            <p class="text-slate-400">>>> Código fuente verificado. Suite TDD: <span class="text-emerald-400">${p.cobertura}</span></p>
+            <button onclick="simularEjecucion(${p.id})" id="btn-simular" class="mt-2 bg-brand-accent hover:bg-brand-accentHover text-brand-dark font-bold px-3 py-1.5 rounded text-xs transition flex items-center gap-1">
+                <i data-lucide="play" class="w-3 h-3"></i> Ejecutar Demostración de Flujo Operativo
+            </button>
+            <div id="consola-viva" class="hidden mt-3 pt-3 border-t border-slate-800 text-slate-300 font-mono text-[11px] space-y-1"></div>
+        </div>
+    `;
+
+    const modal = document.getElementById("modal-proyecto");
+    modal.classList.remove("hidden");
+    document.body.style.overflow = "hidden"; 
+    lucide.createIcons();
+}
+
+// NUEVA FUNCIÓN: Simula el comportamiento del backend (Python/Java) directo en la pantalla del cliente
+        function simularEjecucion(id) {
+            const btn = document.getElementById("btn-simular");
+            const consola = document.getElementById("consola-viva");
+            
+            btn.classList.add("hidden"); // Ocultamos el botón para evitar doble clic
+            consola.classList.remove("hidden");
+            consola.innerHTML = `<p class="text-yellow-400 animate-pulse">>>> Inicializando entorno virtual aislado... Cargando módulos...</p>`;
+
+            // Simulamos tiempos de respuesta del sistema (Delay de ingeniería)
+            setTimeout(() => {
+                if(id === 1) { // Python Reportes
+                    consola.innerHTML = `
+                        <p class="text-slate-500">>>> [CONEXIÓN] Estableciendo canal cifrado con SMTP TLS...</p>
+                        <p class="text-slate-300">>>> [SQL] Extrayendo saldos pendientes desde la base de datos local...</p>
+                        <p class="text-slate-300">>>> [JINJA2] Renderizando 3 reportes ejecutivos en formato PDF corporativo...</p>
+                        <p class="text-emerald-400 font-bold">✔ [EXITO] Estados de cuenta enviados correctamente a los clientes (0 fallos).</p>
+                    `;
+                } else if(id === 2) { // SQL Ventas
+                    consola.innerHTML = `
+                        <p class="text-slate-500">>>> [ETL] Analizando 15,420 registros históricos transaccionales...</p>
+                        <p class="text-slate-300">>>> [SQL] Computando Margen de Utilidad Neto: INGRESO - COSTO OPERATIVO...</p>
+                        <p class="text-slate-300">>>> [JSON] Serializando payload estructurado en codificación UTF-8...</p>
+                        <p class="text-emerald-400 font-bold">✔ [EXITO] Dashboard de Inteligencia de Negocio actualizado en 0.285s.</p>
+                    `;
+                } else if(id === 3) { // Java Almacén
+                    consola.innerHTML = `
+                        <p class="text-slate-500">>>> [JVM] Corriendo componente de control transaccional estructurado (Java)...</p>
+                        <p class="text-red-400 font-bold">⚠️ [ALERTA DE REORDEN] ID: PROD-102 (Monitor Gamer) | Stock: 3 | Mínimo: 4</p>
+                        <p class="text-red-400 font-bold">⚠️ [ALERTA DE REORDEN] ID: PROD-101 (Silla Ejecutiva) | Stock: 3 | Mínimo: 5</p>
+                        <p class="text-purple-400">>>> [AUDITORÍA] Hilo transaccional cerrado de forma segura mediante JUnit 5.</p>
+        ```;
+                }
+                lucide.createIcons();
+            }, 1200); // 1.2 segundos de retraso para dar sensación de procesamiento real
         }
 
         function cerrarModal() {
